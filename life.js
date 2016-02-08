@@ -37,11 +37,12 @@ function drawLife(divElement, svgWidth, svgHeight, totalSquares, toShade) {
                       .attr('height', squareSize)
                       .style('fill', 'none')
                       .style('stroke-width', 1)
-                      .style('stroke', 'red');
+                      .style('stroke', 'grey');
 
       for (let i = 0; i < toShade.length; i++) {
         if (total >= toShade[i].start && total < toShade[i].end) {
-          square.style('fill', toShade[i].colour);
+          square.style('fill', toShade[i].colour)
+                .style('fill-opacity', 0.7);
         }
       }
       total++;
@@ -67,5 +68,5 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log(numYearsNow);
 
   //drawLife(d3.select('#life'), 500, 500, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}]);
-  drawLife(d3.select('#life'), 1000, 2000, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 1000, 4000, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
 });
