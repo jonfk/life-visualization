@@ -59,7 +59,7 @@ function drawWeeksLeft(birthdate, lifeExpectancy) {
   let numWeeksLeft = d3.time.week.range(start, end, 1).length;
   let numWeeksNow = d3.time.week.range(start, now, 1).length;
 
-  drawLife(d3.select('#life'), 20, 3, 10, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 50, 3, 10, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
 }
 
 function drawYearsLeft(birthdate, lifeExpectancy) {
@@ -71,7 +71,7 @@ function drawYearsLeft(birthdate, lifeExpectancy) {
   let numYearsNow = d3.time.year.range(start, now, 1).length;
   console.log(numYearsLeft);
 
-  drawLife(d3.select('#life'), 5, 5, 20, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 8, 5, 20, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}]);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -85,6 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let numDaysLeft = d3.time.day.range(start, end, 1).length;
 
 
-  drawWeeksLeft(start, 80);
-  //drawYearsLeft(start, 101);
+  //drawWeeksLeft(start, 80);
+  drawYearsLeft(start, 101);
 });
