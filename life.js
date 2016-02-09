@@ -1,10 +1,14 @@
 "use strict";
 
-function drawLife(divElement, svgWidth, svgHeight, spacing, squareSize, totalSquares, toShade) {
+function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares, toShade) {
+
+  let width = (spacing * (numSquaresWidth + 1)) + (squareSize * numSquaresWidth);
+  let numSquaresHeight = Math.ceil(totalSquares / numSquaresWidth);
+  let height = (spacing * (numSquaresHeight + 1)) + (squareSize * numSquaresHeight);
 
   var margin = { top: 10, bottom: 10, right: 10, left: 10 };
-  var width = svgWidth - margin.right - margin.left;
-  var height = svgHeight - margin.top - margin.bottom;
+  var svgWidth = width + margin.right + margin.left;
+  var svgHeight = height + margin.top + margin.bottom;
 
   /* var spacing = 5; // space between each square
      var squareSize = 20; */
@@ -61,28 +65,27 @@ function drawLife(divElement, svgWidth, svgHeight, spacing, squareSize, totalSqu
 function drawWeeksLeft(birthdate, lifeExpectancy) {
   let start = birthdate;
   let now = new Date();
-  let end = d3.time.year.offset(start, 90);
+  let end = d3.time.year.offset(start, lifeExpectancy);
 
   let numWeeksLeft = d3.time.week.range(start, end, 1).length;
   let numWeeksNow = d3.time.week.range(start, now, 1).length;
 
-  drawLife(d3.select('#life'), 490, 1500, 2, 10, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 20, 3, 10, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
 }
 
 function drawYearsLeft(birthdate, lifeExpectancy) {
   let start = birthdate;
   let now = new Date();
-  let end = d3.time.year.offset(start, 90);
+  let end = d3.time.year.offset(start, lifeExpectancy);
 
   let numYearsLeft = d3.time.year.range(start, end, 1).length;
   let numYearsNow = d3.time.year.range(start, now, 1).length;
+  console.log(numYearsLeft);
 
-  drawLife(d3.select('#life'), 200, 400, 5, 20, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 5, 5, 20, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}]);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('hello');
-
   var format = d3.time.format("%Y-%m-%d");
 
   let start = format.parse("1992-01-28"); // returns a Date
@@ -93,6 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let numDaysLeft = d3.time.day.range(start, end, 1).length;
 
 
-  //drawWeeksLeft(start, 80);
-  drawYearsLeft(start, 80);
+  drawWeeksLeft(start, 80);
+  //drawYearsLeft(start, 101);
 });
