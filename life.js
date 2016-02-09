@@ -10,9 +10,6 @@ function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares
   var svgWidth = width + margin.right + margin.left;
   var svgHeight = height + margin.top + margin.bottom;
 
-  /* var spacing = 5; // space between each square
-     var squareSize = 20; */
-
   var svg = divElement.append('svg')
                       .attr('width', svgWidth)
                       .attr('height', svgHeight);
@@ -29,14 +26,6 @@ function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares
                      .style('stroke', 'grey');
 
   var total = 0;
-  var xStart = ((width % (squareSize + spacing)) + spacing) / 2;
-  var yStart = ((height % (squareSize + spacing)) + spacing) / 2;
-  if (xStart < 2) {
-    xStart = (squareSize + spacing) / 2;
-  }
-  if (yStart < 2) {
-    yStart = (squareSize + spacing) / 2;
-  }
   for (let y = (margin.top + spacing); y < height; y += (squareSize + spacing)) {
     for (let x = (margin.left + spacing); x < width; x += (squareSize + spacing)) {
       if (total >= totalSquares) {
