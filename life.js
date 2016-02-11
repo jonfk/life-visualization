@@ -1,6 +1,9 @@
 "use strict";
 
-function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares, toShade) {
+const Weeks = 0;
+const Years = 1;
+
+function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares, toShade, startTime, period) {
 
   let width = (spacing * (numSquaresWidth + 1)) + (squareSize * numSquaresWidth);
   let numSquaresHeight = Math.ceil(totalSquares / numSquaresWidth);
@@ -14,7 +17,9 @@ function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares
                       .attr('width', svgWidth)
                       .attr('height', svgHeight);
 
-
+  var focus = svg.append("g")
+                 .attr("class", "focus")
+                 .style("display", "none");
 
   var container = svg.append('rect')
                      .attr('x', margin.left)
@@ -34,12 +39,29 @@ function drawLife(divElement, numSquaresWidth, spacing, squareSize, totalSquares
       let square = svg.append('rect')
                       .attr('x', x)
                       .attr('y', y)
+                      .attr('offset', total)
                       .attr('width', squareSize)
                       .attr('height', squareSize)
                       .style('fill', 'none')
                       .style('stroke-width', 1)
                       .style('stroke', 'grey');
 
+      switch (period) {
+        case Weeks:
+          square.on('mouseover', function () {
+            let offset = parseInt(square.attr('offset')) + 1;
+            let time = d3.time.week.offset(startTime, offset);
+            console.log(time);
+          })
+          break;
+        case Years:
+          square.on('mouseover', function () {
+            let offset = parseInt(square.attr('offset')) + 1;
+            let time = d3.time.year.offset(startTime, offset);
+            console.log(time);
+          })
+          break;
+      }
       for (let i = 0; i < toShade.length; i++) {
         if (total >= toShade[i].start && total < toShade[i].end) {
           square.style('fill', toShade[i].colour)
@@ -59,7 +81,7 @@ function drawWeeksLeft(birthdate, lifeExpectancy) {
   let numWeeksLeft = d3.time.week.range(start, end, 1).length;
   let numWeeksNow = d3.time.week.range(start, now, 1).length;
 
-  drawLife(d3.select('#life'), 50, 3, 10, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 50, 3, 10, numWeeksLeft, [{start: 0, end: numWeeksNow, colour: 'steelblue'}], start, Weeks);
 }
 
 function drawYearsLeft(birthdate, lifeExpectancy) {
@@ -71,7 +93,7 @@ function drawYearsLeft(birthdate, lifeExpectancy) {
   let numYearsNow = d3.time.year.range(start, now, 1).length;
   console.log(numYearsLeft);
 
-  drawLife(d3.select('#life'), 8, 5, 20, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}]);
+  drawLife(d3.select('#life'), 8, 5, 20, numYearsLeft, [{start: 0, end: numYearsNow, colour: 'steelblue'}], start, Years);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -85,6 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let numDaysLeft = d3.time.day.range(start, end, 1).length;
 
 
-  //drawWeeksLeft(start, 80);
-  drawYearsLeft(start, 101);
+  drawWeeksLeft(start, 80);
+  //drawYearsLeft(start, 101);
 });
